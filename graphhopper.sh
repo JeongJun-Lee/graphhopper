@@ -228,10 +228,10 @@ elif [ ${FILE: -4} == ".osm" ]; then
 elif [ ${FILE: -4} == ".ghz" ]; then
    LINK="https://graphhopper.com/public/maps/0.1/$FILE"
 elif [ ${FILE: -4} == ".pbf" ]; then
-   LINK="http://download.geofabrik.de/$LINK-latest.osm.pbf"
+   LINK="http://download.geofabrik.de/asia/$LINK.pbf" # For Uzbekistan
 else
    # e.g. if directory ends on '-gh'
-   LINK="http://download.geofabrik.de/$LINK-latest.osm.pbf"
+   LINK="http://download.geofabrik.de/asia/$LINK.pbf" # For Uzbekistan
 fi
 
 : "${JAVA_OPTS:=-Xmx1000m -Xms1000m}"

@@ -51,7 +51,7 @@ public class CarFlagEncoder extends AbstractFlagEncoder {
     protected final Map<String, Integer> defaultSpeedMap = new HashMap<>();
 
     public CarFlagEncoder() {
-        this(5, 5, 0);
+        this(5, 2, 0); // Changed to lower for Samarkand
     }
 
     public CarFlagEncoder(PMap properties) {
@@ -114,31 +114,33 @@ public class CarFlagEncoder extends AbstractFlagEncoder {
         badSurfaceSpeedMap.add("unpaved");
         badSurfaceSpeedMap.add("compacted");
 
+        // Changed to lower for Samarkand
         // autobahn
-        defaultSpeedMap.put("motorway", 100);
-        defaultSpeedMap.put("motorway_link", 70);
-        defaultSpeedMap.put("motorroad", 90);
+        defaultSpeedMap.put("motorway", 40); // from 100
+        defaultSpeedMap.put("motorway_link", 40); // from 70
+        defaultSpeedMap.put("motorroad", 40); // from 90
+
         // bundesstraße
-        defaultSpeedMap.put("trunk", 70);
-        defaultSpeedMap.put("trunk_link", 65);
+        defaultSpeedMap.put("trunk", 40); // from 70
+        defaultSpeedMap.put("trunk_link", 40); // from 65
         // linking bigger town
-        defaultSpeedMap.put("primary", 65);
-        defaultSpeedMap.put("primary_link", 60);
+        defaultSpeedMap.put("primary", 40); // from 65
+        defaultSpeedMap.put("primary_link", 40); // from 60
         // linking towns + villages
-        defaultSpeedMap.put("secondary", 60);
-        defaultSpeedMap.put("secondary_link", 50);
+        defaultSpeedMap.put("secondary", 40); // from 60
+        defaultSpeedMap.put("secondary_link", 40); // from 50
         // streets without middle line separation
-        defaultSpeedMap.put("tertiary", 50);
-        defaultSpeedMap.put("tertiary_link", 40);
-        defaultSpeedMap.put("unclassified", 30);
-        defaultSpeedMap.put("residential", 30);
+        defaultSpeedMap.put("tertiary", 40); // from 50
+        defaultSpeedMap.put("tertiary_link", 40); 
+        defaultSpeedMap.put("unclassified", 30); 
+        defaultSpeedMap.put("residential", 30); 
         // spielstraße
         defaultSpeedMap.put("living_street", 5);
-        defaultSpeedMap.put("service", 20);
+        defaultSpeedMap.put("service", 20); 
         // unknown road
-        defaultSpeedMap.put("road", 20);
+        defaultSpeedMap.put("road", 20); 
         // forestry stuff
-        defaultSpeedMap.put("track", 15);
+        defaultSpeedMap.put("track", 15); 
 
         // limit speed on bad surfaces to 30 km/h
         badSurfaceSpeed = 30;
@@ -183,7 +185,7 @@ public class CarFlagEncoder extends AbstractFlagEncoder {
             }
         }
 
-        return speed;
+        return (speed > 40) ? 40 : speed; // Changed to lower for Samarkand 
     }
 
     @Override
@@ -246,7 +248,7 @@ public class CarFlagEncoder extends AbstractFlagEncoder {
         if (!accept.isFerry()) {
             // get assumed speed from highway type
             double speed = getSpeed(way);
-            speed = applyMaxSpeed(way, speed);
+            // speed = applyMaxSpeed(way, speed); // Changed to lower for Samarkand 
 
             speed = applyBadSurfaceSpeed(way, speed);
 

@@ -19,7 +19,11 @@ package com.graphhopper.http;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Arrays;
 
 /**
  * @author Peter Karich
@@ -27,11 +31,24 @@ import java.io.IOException;
 public class CORSFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletResponse rsp = (HttpServletResponse) response;
-        rsp.setHeader("Access-Control-Allow-Methods", "GET, POST, HEAD, OPTIONS");
-        rsp.setHeader("Access-Control-Allow-Headers", "Origin,Accept,X-Requested-With,"
-                + "Content-Type,Access-Control-Request-Method,Access-Control-Request-Headers");
-        rsp.setHeader("Access-Control-Allow-Origin", "*");
+        String[] allowDomain = {
+          "http://localhost:8100",
+          "https://samarkand.samtour.uz",
+          "https://driver.samtour.uz",
+          "https://guide.samtour.uz"
+        };
+        Set<String> allowedOrigins = new HashSet<String>(Arrays.asList (allowDomain));
+        
+        final HttpServletRequest req = (HttpServletRequest) request;
+        String originHeader = req.getHeader("Origin");
+
+        if (allowedOrigins.contains(originHeader)) {
+          HttpServletResponse rsp = (HttpServletResponse) response;
+          rsp.setHeader("Access-Control-Allow-Methods", "GET, POST, HEAD, OPTIONS");
+          rsp.setHeader("Access-Control-Allow-Headers", "Origin,Accept,X-Requested-With,"
+                  + "Content-Type,Access-Control-Request-Method,Access-Control-Request-Headers");
+          rsp.setHeader("Access-Control-Allow-Origin", originHeader);
+        }
 
         chain.doFilter(request, response);
     }
